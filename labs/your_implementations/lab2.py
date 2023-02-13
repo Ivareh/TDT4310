@@ -1,4 +1,7 @@
 from lab_utils import LabPredictor
+import spacy
+import nltk 
+from .models import TrigramModel
 
 # pylint: disable=pointless-string-statement
 """
@@ -23,18 +26,26 @@ class Lab2(LabPredictor):
         super().__init__()
         corpus = []
         # TODO: select a strategy for cold start (when missing words)
+        self.start_words = ["the", "a", "an", "this", "that", "these", "those"]
         self.model = None  # the model will be loaded/made in `train`
 
     def predict(self, text):
         print(f"Lab2 receiving: {text}")
+        self.nlp = spacy.load("en_core_web_sm")
+
+        predictions = []
 
         # TODO: apply your own idea of using POS tags to alter/filter the predictions
         # you can also implement anything you wish from spacy.
         # there's a lot of interesting stuff in the spacy docs.
 
-        return ["this", "is", "lab", "2"]
+        # Morphological Analysis
+
+        
+        return self.model.predict(text, n_words=4)
 
     def train(self) -> None:
         # TODO: use the trigram model from Lab 1 or the one provided in the solutions folder
+        self.model = TrigramModel()
         # TODO: NEW TO LAB 2: load spacy model for POS tagging
         pass
